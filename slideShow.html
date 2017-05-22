@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Slide show</title>
+	<style type="text/css">
+		html{
+			width: 100%;
+		}
+		.imagelist{
+			
+			position: relative;
+			overflow: hidden;
+			border: 1px solid black;
+		}
+		.imagediv{
+			position: absolute;
+		}
+		 .img1{
+			position: absolute;
+			top:0;
+			left:0;
+		}
+
+		 .img2{
+			position: absolute;
+			top:0;
+			left:170px;
+		}
+
+		 .img3{
+			position: absolute;
+			top:0;
+			left:340px;
+		}
+
+		.img4{
+			position: absolute;
+			top:0;
+			left:510px;
+		}
+	</style>
+	
+</head>
+<body>
+<div id="imagelist" class="imagelist">
+  <span  class="img1 imgdiv">
+    <img src="http://blogoscoped.com/files/google-cartoon-01.gif" alt="" height="170px">
+  </span>
+  <span  class="img2 imgdiv">
+  	<img src="http://blogoscoped.com/files/google-cartoon-03.gif" alt="" height="170px">
+  </span>
+  <span  class="img3 imgdiv">
+  	<img src="http://blogoscoped.com/files/google-cartoon-02.gif" alt="" height="170px">
+  </span>
+  <span  class="img4 imgdiv">
+  	<img src="https://images-na.ssl-images-amazon.com/images/I/610kq7issEL._AC_UL320_SR302,320_.jpg" alt="" height="170px">
+  </span>
+  
+</div>
+
+<script type="text/javascript">
+		var imagesHeight = "170";
+		var imagesWidth = "700";
+		var imageW = 170;
+
+		(function(){
+			var obj = document.getElementById('imagelist');
+			obj.style.height = imagesHeight+'px';
+			obj.style.width = imagesWidth+"px";
+			var numberOfImages = 4;
+
+			function replicate(){
+				var imageDiv = obj.querySelectorAll('.imgdiv');
+				for(var i = 0 ; i < numberOfImages ; i ++){
+					var node = imageDiv[i].cloneNode(true);
+					node.style.left = "-"+((imageDiv.length-i)*170)+"px";
+					node.style.position = "absolute";
+					node.rep="true";
+					obj.insertBefore(node,imageDiv[0]);
+				}
+			}
+			replicate();
+
+			function slide(){
+				var imageDiv = obj.querySelectorAll('.imgdiv');
+				console.log(imageDiv);
+				for(var i = 0 ; i < imageDiv.length ; i ++){
+					var leftPos = imageDiv[i].getBoundingClientRect().left;
+					if(i == 2 && leftPos > 400) replicate();
+					if(imageDiv.length-1 == i  && leftPos > (imagesWidth+50)){
+						 imageDiv[i].remove();
+					}else{
+						imageDiv[i].style.left = (leftPos + 1)+"px";
+						imageDiv[i].style.position = "absolute";
+					}
+
+				}
+			} 
+
+			function startSliding(){
+				setInterval(function(){
+					slide();
+				},1000);				
+			}
+
+			startSliding();
+		})();
+
+
+
+	</script>
+
+</body>
+</html>
